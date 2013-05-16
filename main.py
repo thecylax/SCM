@@ -4,7 +4,7 @@
 import pygame
 from pygame.locals import *
 import events
-from button import *
+from GUI import Buttons
 from GUI.robot import Robot
 from GUI.map import Map
 from GUI.settings import *
@@ -21,12 +21,10 @@ class App(events.SCMEvent):
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption('Sophia Console Monitor')
+        self._display_surf.fill(MAGENTA_BG)
         self._clock = pygame.time.Clock()
         self._running = True
  
-#    def on_event(self, event):
-#        if event.type == pygame.QUIT:
-#            self._running = False
     def on_loop(self):
         pass
 
@@ -46,7 +44,7 @@ class App(events.SCMEvent):
                                         [-14, 8],
                                         [-15, 0]])
         pygame.display.flip()
-        #pass
+
     def on_cleanup(self):
         pygame.quit()
  
@@ -63,13 +61,12 @@ class App(events.SCMEvent):
         self.on_cleanup()
 
     def LoadButtons(self):
-        t1 = Teste(0, 0)
-        t1.draw(self._display_surf)
-        t2 = Teste(0, 30)
-        t2.draw(self._display_surf)
-#        self.button = Button()
-#        self.button.setCoords(10, 10)
-#        self.button_sprites = pygame.sprite.RenderPlain((self.button))
+        self.Button1 = Buttons.Button()
+        self.Button1.create_button(self._display_surf, MAGENTA_WIDGET, 10, 5, 100, 30, 0, 'Sensors', WHITE)
+
+        self.Button2 = Buttons.Button()
+        self.Button2.create_button(self._display_surf, MAGENTA_WIDGET, 10, 45, 100, 30, 0, 'Settings', WHITE)
+
         
 if __name__ == "__main__" :
     theApp = App()

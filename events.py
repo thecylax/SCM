@@ -17,7 +17,9 @@ class SCMEvent:
     def on_mouse_blur(self):
         pass
     def on_mouse_move(self, event):
-        pass
+        self.Button1.mouse_over(pygame.mouse.get_pos())
+        self.Button2.mouse_over(pygame.mouse.get_pos())
+
     def on_mouse_wheel(self, event):
         pass
     def on_lbutton_up(self, event):
@@ -31,9 +33,11 @@ class SCMEvent:
     def on_mbutton_up(self, event):
         pass
     def on_mbutton_down(self, event):
-        print "pressed!"
-        return pygame.mouse.get_pos()
-        #pass
+        if self.Button1.pressed(pygame.mouse.get_pos()):
+            print "Sensors"
+        if self.Button2.pressed(pygame.mouse.get_pos()):
+            print "Settings"
+
     def on_minimize(self):
         pass
     def on_restore(self):
