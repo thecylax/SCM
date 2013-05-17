@@ -3,13 +3,12 @@
 
 import pygame
 from pygame.locals import *
-import events
-from GUI import Buttons
+from GUI import Buttons, Events, Frame
 from GUI.robot import Robot
 from GUI.map import Map
 from GUI.settings import *
  
-class App(events.SCMEvent):
+class App(Events.SCMEvent):
     def __init__(self):
         self._running = True
         self._display_surf = None
@@ -30,6 +29,8 @@ class App(events.SCMEvent):
 
     def on_render(self):
         self.LoadButtons()
+        self.load_frame()
+
         r = Robot(self.size)
         r.draw(self._display_surf)
         
@@ -60,13 +61,21 @@ class App(events.SCMEvent):
             self.on_render()
         self.on_cleanup()
 
+    # Start of UI elements
     def LoadButtons(self):
+        # Sidebar buttons, 40px vertical distance
         self.Button1 = Buttons.Button()
         self.Button1.create_button(self._display_surf, MAGENTA_WIDGET, 10, 5, 100, 30, 0, 'Sensors', WHITE)
 
         self.Button2 = Buttons.Button()
         self.Button2.create_button(self._display_surf, MAGENTA_WIDGET, 10, 45, 100, 30, 0, 'Settings', WHITE)
 
+        self.Button3 = Buttons.Button()
+        self.Button3.create_button(self._display_surf, MAGENTA_WIDGET, 10, 85, 100, 30, 0, 'Quit', WHITE)
+
+    def load_frame(self):
+        self.Frame1 = Frame.Frame()
+        self.Frame1.create_frame(self._display_surf, MAGENTA_WIDGET, 120, 5, self.size[0]-125, self.size[1]-10, 0, 'Frame', WHITE)
         
 if __name__ == "__main__" :
     theApp = App()
