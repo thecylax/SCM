@@ -2,33 +2,47 @@
 
 import pygame
 from pygame.locals import *
-pygame.init()
+from GUI.settings import *
+
+pygame.font.init()
 
 class Frame:
+    def __init__(self, rect=None, caption='', bgcolor=MAGENTA_FG, fgcolor=WHITE, font=None, font_size=14):
+        if rect is None:
+            self._rect = pygame.Rect(0, 0, 30, 60)
+        else:
+            self._rect = pygame.Rect(rect)
+            
+        self._caption = caption
+        self._bgcolor = bgcolor
+        self._fgcolor = fgcolor
         
-    def create_frame(self, surface, color, x, y, length, height, width, text, text_color):
-        surface = self.draw_frame(surface, color, length, height, x, y, width)
-#        surface = self.write_text(surface, text, text_color, length, height, x, y)
-        self.rect = pygame.Rect(x,y, length, height)
-        return surface
+        if font is None:
+            self._font = pygame.font.Font(FONT, FONT_SIZE)
+        else:
+            self._font = pygame.font.SysFont(font, font_size)
+        
+        # Create the surface
+        self.surface = pygame.Surface(self._rect.size)
+        self._update()
+            
+    def draw(self, surfaceObj):
+        """Blit the current frame appearance to the surface object."""
+        surfaceObj.blit(self.surface, self._rect)
 
-    def write_text(self, surface, text, text_color, length, height, x, y):
-        font_size = 20
-        myFont = pygame.font.SysFont("Calibri", font_size)
-        myText = myFont.render(text, 1, text_color)
-        surface.blit(myText, ((x+length/2) - myText.get_width()/2, (y+height/2) - myText.get_height()/2))
-        return surface
+    def _update(self):
+        """Redraw the button's Surface object. Call this method when the button has changed appearance."""
+        w = self._rect.width # syntactic sugar
+        h = self._rect.height # syntactic sugar
+        
+        self.surface.fill(self._bgcolor)
 
-    def draw_frame(self, surface, color, length, height, x, y, width):           
-        for i in range(1,4):
-            s = pygame.Surface((length+(i*2),height+(i*2)))
-            s.fill(color)
-            alpha = (255/(i+2))
-            if alpha <= 0:
-                alpha = 1
-            s.set_alpha(alpha)
-            pygame.draw.rect(s, color, (x-i,y-i,length+i,height+i), width)
-            surface.blit(s, (x-i,y-i))
-        pygame.draw.rect(surface, color, (x,y,length,height), 0)
-        pygame.draw.rect(surface, (190,190,190), (x,y,length,height), 1)  
-        return surface
+        # draw caption text for all frames
+        captionSurf = self._font.render(self._caption, True, self._fgcolor, self._bgcolor)
+        captionRect = captionSurf.get_rect()
+        #captionRect.center = 0, 0
+        captionRect.topleft = 5, 4
+        self.surface.blit(captionSurf, captionRect)
+
+        # draw frame border
+        pygame.draw.rect(self.surface, WHITE, pygame.Rect((3, 3, w - 6, h - 6)), 1)
