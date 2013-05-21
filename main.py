@@ -12,9 +12,9 @@ class App(Events.SCMEvent):
     def __init__(self):
         self._running = True
         self._display_surf = None
-        self.size = self.weight, self.height = 640, 400
-        self._x = self.size[0]/2
-        self._y = self.size[1]/2
+        self.size = self.weight, self.height = 800, 600
+        self._x = self.size[0]
+        self._y = self.size[1]
  
     def on_init(self):
         pygame.init()
@@ -28,12 +28,12 @@ class App(Events.SCMEvent):
         pass
 
     def on_render(self):
-        self.LoadButtons()
+        self.load_buttons()
         self.load_frame()
 
         r = Robot(self.size)
         r.draw(self._display_surf)
-        
+         
         w = Map(GREEN, self.size)
         w.drawWall(self._display_surf, [[10, 0],
                                         [8, 2],
@@ -48,34 +48,36 @@ class App(Events.SCMEvent):
 
     def on_cleanup(self):
         pygame.quit()
- 
+#    def on_event(self, event):
+#        self.buttonHello.handleEvent(event)
+        
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
  
         while( self._running ):
-            self._clock.tick(10)
             for event in pygame.event.get():
                 self.on_event(event)
             self.on_loop()
             self.on_render()
+            self._clock.tick(10)
         self.on_cleanup()
 
     # Start of UI elements
-    def LoadButtons(self):
-        # Sidebar buttons, 40px vertical distance
-        self.Button1 = Buttons.Button()
-        self.Button1.create_button(self._display_surf, MAGENTA_WIDGET, 10, 5, 100, 30, 0, 'Sensors', WHITE)
-
-        self.Button2 = Buttons.Button()
-        self.Button2.create_button(self._display_surf, MAGENTA_WIDGET, 10, 45, 100, 30, 0, 'Settings', WHITE)
-
-        self.Button3 = Buttons.Button()
-        self.Button3.create_button(self._display_surf, MAGENTA_WIDGET, 10, 85, 100, 30, 0, 'Quit', WHITE)
-
+    def load_buttons(self):
+        right = 2
+        sensors_btn = Buttons.Button((right, 2, 106, 35), 'Sensors')
+        sensors_btn.draw(self._display_surf)
+        
+        settings_btn = Buttons.Button((right, 39, 106, 35), 'Settings')
+        settings_btn.draw(self._display_surf)
+        
+        quit_btn = Buttons.Button((right, 76, 106, 35), 'Quit')
+        quit_btn.draw(self._display_surf)
+        
     def load_frame(self):
-        self.Frame1 = Frame.Frame()
-        self.Frame1.create_frame(self._display_surf, MAGENTA_WIDGET, 120, 5, self.size[0]-125, self.size[1]-10, 0, 'Frame', WHITE)
+        self.Frame1 = Frame.Frame((110, 2, self._x - 112, self._y - 4), caption='Frame', font='Courier black', font_size=20)
+        self.Frame1.draw(self._display_surf)
         
 if __name__ == "__main__" :
     theApp = App()
