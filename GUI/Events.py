@@ -17,10 +17,11 @@ class SCMEvent:
     def on_mouse_blur(self):
         pass
     def on_mouse_move(self, event):
-        self.Button1.mouse_over(pygame.mouse.get_pos())
-        self.Button2.mouse_over(pygame.mouse.get_pos())
-        self.Button3.mouse_over(pygame.mouse.get_pos())
-
+        #self.Button1.mouse_over(pygame.mouse.get_pos())
+        #self.Button2.mouse_over(pygame.mouse.get_pos())
+        #self.Button3.mouse_over(pygame.mouse.get_pos())
+        pass
+    
     def on_mouse_wheel(self, event):
         pass
     def on_lbutton_up(self, event):
@@ -34,13 +35,13 @@ class SCMEvent:
     def on_mbutton_up(self, event):
         pass
     def on_mbutton_down(self, event):
-        if self.Button1.pressed(pygame.mouse.get_pos()):
-            print "Sensors"
-        if self.Button2.pressed(pygame.mouse.get_pos()):
-            print "Settings"
-        if self.Button3.pressed(pygame.mouse.get_pos()):
-            self.on_exit()
-
+        #if self.Button1.pressed(pygame.mouse.get_pos()):
+        #    print "Sensors"
+        #if self.Button2.pressed(pygame.mouse.get_pos()):
+        #    print "Settings"
+        #if self.Button3.pressed(pygame.mouse.get_pos()):
+        #    self.on_exit()
+        pass
     def on_minimize(self):
         pass
     def on_restore(self):
@@ -67,6 +68,7 @@ class SCMEvent:
     def on_event(self, event):
 #        if event.type == pygame.QUIT:
 #            self._running = False
+        #self.buttonHello.handleEvent(event)
         if event.type == QUIT:
             self.on_exit()
  
